@@ -17,8 +17,31 @@ const Generate = () => {
     setForm({...form,[e.target.name]: e.target.value})
   }
 
-  const generateImage=()=>{
+  const generateImage=async()=>{
+    if(form.prompt){
+      try {
+        setGenerating(true);
+        const response = await fetch('http://localhost:8080/api/v1/fullJourney'
+        ,{
+          method:'POST',
+          headers:{
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({prompt:form.prompt})
+        })
 
+        const data = await response.json();
+        setForm({...form,photo:`data:image/jpeg;base64${data.photo}`});
+      } catch (error) {
+        alert(error);
+      }
+      finally{
+        setGenerating(false);
+      }
+    }
+    else{
+      alert("Enter a prompt")
+    }
   }
 
   const saveThisImage=()=>{
