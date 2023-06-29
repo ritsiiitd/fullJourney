@@ -6,16 +6,12 @@ import fulljRoutes from './routes/fulljRoutes.js';
 import connectDB from './mongodb/connect.js';
 // import test from './routes/testOpenAI.js';
 
-
-
-
 dotenv.config();
-
 const app = express();
 app.use(cors());
 app.use(express.json({limit:'50mb'}));
 
-app.use('/api/v1/post',postRoutes);
+app.use('/api/v1/save',postRoutes);
 app.use('/api/v1/fullJourney',fulljRoutes);
 
 app.get('/',async(req,res)=>{

@@ -8,6 +8,7 @@ const Generate = () => {
   const [form, setForm] = useState({prompt:'',photo:[],title:''})
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [clicked, setClicked] = useState(-1);
 
   const handleSubmit =()=>{
 
@@ -45,11 +46,39 @@ const Generate = () => {
     }
   }
 
-  const saveThisImage=()=>{
-
+  const saveThisImage=async(e)=>{
+    e.preventDefault();
+    if(form.prompt && form.photo){
+      setLoading(true);
+      try{
+        let arg1 = parseInt(e.target.getAttribute('arg1'));
+        setClicked(arg1);
+        const response = await fetch('http://localhost:8080/api/v1/save'
+        ,{
+          method:'POST',
+          headers:{
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({name:form.prompt,prompt:form.prompt,photo:form.photo[arg1]}),
+        });
+        console.log("save??",response)
+        // await response.json();
+        navigate('/');
+      }
+      catch(err){
+        console.log("did not save");
+        alert(err);
+      }
+      finally{
+        setLoading(false);
+      }
+    }
+    else{
+      alert("No photo to save")
+    }
   }
   return (
-    <section className='max-w-7xl mx-auto'>
+    <section className=' w-full mx-auto'>
       <div>
         <h1 className='font-extrabold text-[#222328] text-[25px]'>Create Art</h1>
         <p className='mt-2 text-[14px] max-w-[500px] text-gray-500'>
@@ -66,27 +95,41 @@ const Generate = () => {
             value={form.prompt}
             handleChange={handleChange}
           />
-          
 
-          <div className='grid gap-10 container lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1'>
-              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+          <div className='grid gap-20 container lg:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 w-full grid-cols-1'>
+              <div className='relative flex-col bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
                 {form.photo ? (
                   <>
-                  <img className="w-full h-full object-contain" src={form.photo[0]} alt={form.prompt}/>
-                  </>   
+                    <img className="w-full h-full object-contain" src={form.photo[0]} alt={form.prompt}/>
+                    {form.photo[0] && (<button type="button"
+                      onClick={saveThisImage}
+                      disabled = {!form.photo || loading}
+                      arg1='0'
+                      className='text-white hover:bg-gray-600 bg-green-600 text-sm font-medium w-20 text-center p-2 rounded-full font-mono'>
+                        {clicked==0? 'Saving':loading ? ":')":"Save"}
+                    </button>)}
+                  </> 
                 ):(<></>)}
                 {generating && (
                   <div className='absolute flex justify-center items-center '>
                     <Loader />
                   </div>
                 )}
-              
+                
               </div>
+              
 
-              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+              <div className='relative bg-gray-50 flex-col boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
                 {form.photo ? (
                   <>
-                  <img className="w-full h-full object-contain" src={form.photo[1]} alt={form.prompt}/>
+                    <img className="w-full h-full object-contain" src={form.photo[1]} alt={form.prompt}/>
+                    {form.photo[1] && (<button type="button"
+                      onClick={saveThisImage}
+                      disabled = {!form.photo || loading}
+                      arg1='1'
+                      className='text-white hover:bg-gray-600 bg-green-600 text-sm font-medium w-20 text-center p-2 rounded-full font-mono'>
+                        {clicked==1? 'Saving':loading ? ":')":"Save"}
+                    </button>)}
                   </>   
                 ):(<></>)}
                 {generating && (
@@ -96,10 +139,17 @@ const Generate = () => {
                 )}
               
               </div>
-              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+              <div className='relative bg-gray-50 boder-gray-900 flex-col text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
                 {form.photo ? (
                   <>
-                  <img className="w-full h-full object-contain" src={form.photo[2]} alt={form.prompt}/>
+                    <img className="w-full h-full object-contain" src={form.photo[2]} alt={form.prompt}/>
+                    {form.photo[2] && (<button type="button"
+                      onClick={saveThisImage}
+                      disabled = {!form.photo || loading}
+                      arg1='2'
+                      className='text-white hover:bg-gray-600 bg-green-600 text-sm font-medium w-20 text-center p-2 rounded-full font-mono'>
+                        {clicked==2? 'Saving':loading ? ":')":"Save"}
+                    </button>)}
                   </>   
                 ):(<></>)}
                 {generating && (
@@ -109,10 +159,17 @@ const Generate = () => {
                 )}
               
               </div>
-              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+              <div className='relative bg-gray-50 boder-gray-900 flex-col text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
                 {form.photo ? (
                   <>
-                  <img className="w-full h-full object-contain" src={form.photo[3]} alt={form.prompt}/>
+                    <img className="w-full h-full object-contain" src={form.photo[3]} alt={form.prompt}/>
+                    {form.photo[3] && (<button type="button"
+                      onClick={saveThisImage}
+                      disabled = {!form.photo || loading}
+                      arg1='3'
+                      className='text-white hover:bg-gray-600 bg-green-600 text-sm font-medium w-20 text-center p-2 rounded-full font-mono'>
+                        {clicked==3? 'Saving':loading ? ":')":"Save"}
+                    </button>)}
                   </>   
                 ):(<></>)}
 
