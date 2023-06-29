@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 const Generate = () => {
   const navigate  = useNavigate();
-  const [form, setForm] = useState({prompt:'',photo:'',title:''})
+  const [form, setForm] = useState({prompt:'',photo:[],title:''})
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,11 +27,12 @@ const Generate = () => {
           headers:{
             'Content-Type' : 'application/json',
           },
-          body: JSON.stringify({prompt:form.prompt})
-        })
-
+          body: JSON.stringify({prompt:form.prompt}),
+        });
         const data = await response.json();
-        setForm({...form,photo:`data:image/jpeg;base64${data.photo}`});
+        console.log("hello from",data.imageLinks);
+        setForm({...form,photo:data.imageLinks});
+
       } catch (error) {
         alert(error);
       }
@@ -57,25 +58,61 @@ const Generate = () => {
 
       <form className='mt-16 max-w-3xl' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-6'>
-          <FormField
+        <FormField
             labelName="Prompt"
             type="text"
-            name="Prompt"
-            placeholder="be as descriptive as possible"
+            name="prompt"
+            placeholder="type in a descriptive prompt"
             value={form.prompt}
             handleChange={handleChange}
           />
+          
 
-          <div className='grid gap-10 lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1'>
+          <div className='grid gap-10 container lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1'>
               <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
                 {form.photo ? (
                   <>
-                  <img className="w-full h-full object-contain" src={form.photo} alt={form.prompt}/>
-                  <div className='mt-5'>
-                    <button type='button' onClick={saveThisImage} className='text-white hover:bg-gray-600 bg-rose-600 text-sm font-medium w-5 h-3 rounded-md sm:w-auto text-center p-2 font-mono'>
-                      Save
-                    </button>
-                </div>
+                  <img className="w-full h-full object-contain" src={form.photo[0]} alt={form.prompt}/>
+                  </>   
+                ):(<></>)}
+                {generating && (
+                  <div className='absolute flex justify-center items-center '>
+                    <Loader />
+                  </div>
+                )}
+              
+              </div>
+
+              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+                {form.photo ? (
+                  <>
+                  <img className="w-full h-full object-contain" src={form.photo[1]} alt={form.prompt}/>
+                  </>   
+                ):(<></>)}
+                {generating && (
+                  <div className='absolute flex justify-center items-center '>
+                    <Loader />
+                  </div>
+                )}
+              
+              </div>
+              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+                {form.photo ? (
+                  <>
+                  <img className="w-full h-full object-contain" src={form.photo[2]} alt={form.prompt}/>
+                  </>   
+                ):(<></>)}
+                {generating && (
+                  <div className='absolute flex justify-center items-center '>
+                    <Loader />
+                  </div>
+                )}
+              
+              </div>
+              <div className='relative bg-gray-50 boder-gray-900 text-sm w-64 h-64 flex justify-center items-center rounded-lg'>
+                {form.photo ? (
+                  <>
+                  <img className="w-full h-full object-contain" src={form.photo[3]} alt={form.prompt}/>
                   </>   
                 ):(<></>)}
 
@@ -85,7 +122,7 @@ const Generate = () => {
                   </div>
                 )}
               
-          </div>
+              </div>
           </div>
 
           <div className='mt-5 flex gap-5'>

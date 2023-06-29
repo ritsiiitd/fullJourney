@@ -8,14 +8,15 @@ const FormField = ({labelName,type,name,placeholder,value,handleChange}) => {
           {labelName}
         </label>
       </div>
-      <input placeholder={placeholder}
+      <input 
+        className='px-2 w-full py-2 focus:ring-[#4649ff] bg-gray-50 border-gray-300 text-sm rounded-lg text-gray-900'
         name={name}
         type={type}
-        // value={value}
+        placeholder={placeholder}
+        value={value}
         id={name}
         onChange={handleChange}
         required
-        className='px-2 w-full py-2 focus:ring-[#4649ff] bg-gray-50 border-gray-300 text-sm rounded-lg text-gray-900'
       />
     </div>
   )

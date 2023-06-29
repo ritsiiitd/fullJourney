@@ -4,6 +4,10 @@ import * as dotenv from "dotenv";
 import postRoutes from './routes/postRoutes.js';
 import fulljRoutes from './routes/fulljRoutes.js';
 import connectDB from './mongodb/connect.js';
+// import test from './routes/testOpenAI.js';
+
+
+
 
 dotenv.config();
 
@@ -23,6 +27,7 @@ const startServer = async() =>{
     try {
         await connectDB(process.env.MONGODB_URL);
         app.listen(8080,()=> console.log('Server running on http://localhost:8080'));
+        // test();
     } catch (error) {
         console.log(error);
     }
