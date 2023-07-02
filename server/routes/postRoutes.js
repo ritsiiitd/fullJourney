@@ -18,7 +18,8 @@ cloudinary.config({
 router.route('/').get(async(req,res)=>{
     try {
         const posts = await imageSchema.find({});
-        res.send(200).json({success:true, data:posts});
+        console.log(posts);
+        res.status(200).json({data:posts});
     } catch (error) {
         res.send(500).json({success:false, message:error});
     }
@@ -39,7 +40,7 @@ router.route('/').post(async(req,res)=>{
             photo:photoUrl.url,
         })
         console.log("uploaded",newSave);
-        res.send(200);
+        await res.send(200);
     } catch (error) {
         res.send(500).json({message:"Could not"});
         // console.log(error);

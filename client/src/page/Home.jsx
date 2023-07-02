@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card,FormField,Loader } from "../components";
 import { useState } from 'react';
 
@@ -17,6 +17,38 @@ const Home = () => {
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(null)
   const [search,setSearch] = useState("")
+
+  useEffect(()=>{
+    const fetchPhotos=async()=>{
+      console.log("fetching....");
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/save',{
+          method:'GET',
+          headers : {
+            'Content-Type':'application/json',
+          },
+        })
+        if(response.ok){
+          // console.log(response);
+          const result = await response.json();
+          console.log(result);
+          setSaved(result.data.reverse());
+        }
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+      finally{
+        setLoading(false);
+      }
+
+    }
+
+    fetchPhotos();
+
+  },[]);//will be called when component loads
+
   return (
     <section className='max-w-7xl mx-auto'>
       <div>
