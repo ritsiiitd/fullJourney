@@ -91,7 +91,7 @@ const Generate = () => {
             labelName="Prompt"
             type="text"
             name="prompt"
-            placeholder="type in a descriptive prompt"
+            placeholder="say something like: interior design blue room modern style"
             value={form.prompt}
             handleChange={handleChange}
           />

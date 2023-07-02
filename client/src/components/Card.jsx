@@ -11,7 +11,7 @@ const Card = ({_id,title,prompt,photo}) => {
         <p className='text-white text-sm overflow-y-auto prompt'>
           {prompt}
         </p>
-        <button type='button' onClick={()=>downloadImage(_id,photo)} className='bg-transparent border-none'>
+        <button type='button' onClick={()=>downloadImage(_id,photo)} className='mr-0 w-6 h-6 bg-transparent border-dotted '>
           <img src={download} alt="download" className='w-6 h-6 object-contain invert'/>
         </button>
       </div>
