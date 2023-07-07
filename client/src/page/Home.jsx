@@ -16,6 +16,7 @@ const RenderCards = ({data,title}) => {
 const Home = () => {
   const [loading,setLoading] = useState(false)
   const [saved,setSaved] = useState(null)
+  const [searchData,setSearchedData] = useState(null)
   const [search,setSearch] = useState("")
 
   useEffect(()=>{
@@ -49,6 +50,17 @@ const Home = () => {
 
   },[]);//will be called when component loads
 
+  const handleSearchChange=(e)=>{
+    setSearch(e.target.value);
+    let searchedPosts = [];
+    for(let k in saved){
+      if(saved[k].prompt.includes(search))
+      searchedPosts.push(saved[k])
+    }
+    console.log(searchedPosts);
+    setSearchedData(searchedPosts);
+  }
+
   return (
     <section className='max-w-7xl mx-auto'>
       <div>
@@ -58,7 +70,14 @@ const Home = () => {
       </div> 
 
       <div className='mt-16'>
-        <FormField />
+        <FormField 
+          labelName="Search"
+          type="text"
+          name="text"
+          placeholder="Search for images"
+          value={search}
+          handleChange={handleSearchChange}
+        />
       </div>
 
       <div className='mt-10'>
@@ -73,7 +92,7 @@ const Home = () => {
             </h2>)}
             <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3'>
               {search ? (
-                <RenderCards data="searchedResults"
+                <RenderCards data={searchData}
                 title="No search results found"/>
               ):(
                 <RenderCards data={saved} title="No collection found"/>
