@@ -24,7 +24,7 @@ const Home = () => {
       console.log("fetching....");
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:8080/api/v1/save',{
+        const response = await fetch('https://fulljourney-backend.onrender.com/api/v1/save',{
           method:'GET',
           headers : {
             'Content-Type':'application/json',
@@ -64,9 +64,9 @@ const Home = () => {
   return (
     <section className='max-w-7xl mx-auto'>
       <div>
-        <h1 className='font-extrabold text-[#222328] text-[25px]'>Your Collection</h1>
-        <p className='mt-2 text-[14px] max-w-[500px] text-gray-500'>
-        Below is a collection of your saved generations</p>
+        <h1 className='font-extrabold text-[#AAAAAA]'>Users Collection</h1>
+        <p className='mt-2 text-[14px] max-w-[500px] text-[#AAAAAA]'>
+        Below is a collection of your all saved generations</p>
       </div> 
 
       <div className='mt-16'>
@@ -87,7 +87,7 @@ const Home = () => {
           </div>
         ):(
           <>
-            {search && (<h2 className='mt-2 text-[14px] text-gray-600'>
+            {search && (<h2 className='mt-2 text-[14px] text-[#AAAAAA]'>
               Search results for {search}
             </h2>)}
             <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3'>
