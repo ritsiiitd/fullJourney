@@ -21,7 +21,7 @@ router.route('/').post(async (req,res)=>{
         res.status(200).json({imageLinks});
     } catch (error) {
         console.log(error.status);
-        res.status(500).send(error?.response.data.error.message)
+        res.send(500).json({message:"Could not"});
     }
 })
 export default router;
